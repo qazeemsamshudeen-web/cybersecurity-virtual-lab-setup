@@ -364,6 +364,10 @@ ip link set dev wifi_eth up
 
 ip route add default via 10.0.0.1 dev wifi_eth
 
+### Android test connectivity
+ping 8.8.8.8
+![](android-ping.png) 
+
 
 ### Here are only the 3 most important technical problems and their exact solutions:
 
@@ -405,6 +409,10 @@ ip addr add 10.0.0.9/24 dev wifi_eth
 ip link set dev wifi_eth up
 
 ip route add default via 10.0.0.1 dev wifi_eth
+
+** winodows10 ISO: https://www.microsoft.com/software-download/windows10 **
+** Official Android-x86 Project Releases: https://www.android-x86.org/download.html
+
 
 # 👤 Author
 
