@@ -366,7 +366,16 @@ ip route add default via 10.0.0.1 dev wifi_eth
 
 ### Android test connectivity
 ping 8.8.8.8
+
 ![](android-ping.png) 
+
+### Test connectivity
+
+![](android-reach-kali.png)
+android successfully pinged kali on 10.0.0.2
+
+![](kali-reach-android.png)
+kali successfully pinged android on 10.0.0.9
 
 
 ### Here are only the 3 most important technical problems and their exact solutions:
