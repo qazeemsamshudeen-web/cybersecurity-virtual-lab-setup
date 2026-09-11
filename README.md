@@ -315,7 +315,7 @@ ping networkwalks.com
  3. Android-x86 9.0-r2 (64-bit)  Base Memory (RAM): 1536 MB (or 2048 MB)Processors (vCPU): 1 vCPUGraphics Controller: Changed to VBoxVGA.  Video Memory: Set to 128 MB  Enable 3D Acceleration : checked
 
     
-![](android-display.png)
+![](android-displays.png)
 
 ### Hypervisor Network Settings 
  Opened VM Settings > Network > Adapter 1. 
@@ -325,7 +325,7 @@ ping networkwalks.com
  Confirmed Cable Connected was enabled. 
 
  
- ![](android-network-setting.png)
+ ![](android-networks-settings.png)
 
  ### 5. Static Network Configuration
 
