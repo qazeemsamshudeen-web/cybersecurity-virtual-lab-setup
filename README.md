@@ -1,7 +1,8 @@
 <div align="center">
 
 # 🔐 CYBERSECURITY & PENETRATION-TESTING LAB SETUP
-### Building an Isolated Multi-VM Testing Environment for Security Research & Ethical Hacking
+
+### An isolated, virtual penetration testing environment built on Oracle VirtualBox. This project establishes an offensive testing node alongside enterprise Windows and Android target endpoints, networked across a private subnet (`10.0.0.0/24`) for security auditing, network analysis, and exploit testing.
 
 ---
 
@@ -9,26 +10,23 @@
 
 # 📌 PROJECT OVERVIEW
 
-This project focuses on setting up a virtual cybersecurity and penetration-testing laboratory using VirtualBox and Kali Linux.
-
-The purpose of the lab is to create a controlled environment where cybersecurity tools, network scanning, reconnaissance, vulnerability assessment, and other security-testing activities can be performed safely and repeatedly.
-
-The lab is configured on a private virtual network so that additional machines can be added later and used as targets for authorized security testing.
-
+This project is a private cybersecurity testing lab built on Oracle VirtualBox. It includes an attacker machine (Kali Linux) and two target machines (Windows 10 and Android-x86). All machines run on an isolated private network so testing is safe and does not touch the host computer or the home Wi-Fi
 ---
 
 # 🎯 OBJECTIVES
 
 The main objectives of this project are to:
-* Install and configure VirtualBox.
-* Install/import Kali Linux as a virtual machine.
-* Create a private NAT Network for the cybersecurity lab.
-* Configure network connectivity for Kali Linux.
-* Assign a consistent IP address to the Kali VM.
-* Verify network connectivity and DNS resolution.
-* Take a clean VM snapshot for recovery.
-* Document the complete setup process.
-* Prepare the environment for future cybersecurity projects.
+Install and configure Oracle VirtualBox on the host machine.  
+Create an isolated NAT Network (10.0.0.0/24) with internet access. 
+Install and import Kali Linux as the dedicated attacker machine.  
+Install Windows 10 and Android-x86 as practice target machines.  
+Assign consistent, static IP addresses to all virtual machines (Kali: 10.0.0.2, Windows: 10.0.0.10, Android: 10.0.0.9). 
+Configure shared folders and bidirectional clipboard integration. 
+Resolve storage issues by offloading large virtual disks to an external drive (D:).
+Fix display freezes and interface mapping errors on Android-x86.
+Verify bidirectional network connectivity and DNS resolution across the lab. 
+Take clean VM snapshots of all machines for quick recovery.
+Document the complete setup process and troubleshooting steps for the team
 
 ---
 
@@ -49,9 +47,12 @@ It can be used for activities such as:
 
 ---
 
+# Lab Implementation Phases
+This lab is set up in two main phases:Phase 1: The Attacker Machine (Kali Linux)Setting up Kali Linux as the main offensive station. This includes importing the VM, enabling bidirectional clipboard and shared folders, assigning the static IP (10.0.0.2/24), fixing network timeouts, and verifying internet access.
+
+Phase 2: The Target Endpoints (Windows 10 & Android-x86)Setting up the victim machines to practice real-world attacks. This includes installing Windows 10 (10.0.0.10) on an external drive (D:), installing Android-x86 (10.0.0.9), fixing display driver crashes, and confirming all machines can communicate across the network.  
+
 # 🏗️ LAB ARCHITECTURE
-
-
 
 
 Additional target machines can be added to the same virtual network in future projects.
@@ -233,10 +234,154 @@ This laboratory is intended strictly for education purposes only.
 
 ---
 
+
+# Phase 2: Target Endpoints SetupPart 1: Windows 10 Enterprise Target Machine (windows10-lab)1. 
+
+### Overview & Purpose; 
+
+Windows 10 is configured as the primary enterprise target endpoint in our cybersecurity lab. It serves as a victim machine for future practice with vulnerability scanning, privilege escalation, and credential testing. 
+
+2. Virtual Machine Hardware & Resource AllocationOperating System: Windows 10 (64-bit, Version 22H2)
+3.  Base Memory (RAM): 2048 MB (2 GB)  Processors (vCPU): 2 vCPUsFirmware:
+4.  BIOS / DefaultOptical Drive: Detached installer ISO (Win10_22H2_English_x64v1.iso) after installation was complete
+5.  Storage Optimization & External Drive MigrationTo prevent filling up the host computer's primary C: drive (which had limited free space), the virtual hard drive was moved to an external high-capacity drive:The virtual hard disk file (windows10-lab.vdi, ~12.8 GB) was moved to: D:\windows10\windows10-lab\windows10-lab.vdi
+6.  In VirtualBox Storage Settings, clicked Controller: SATA, selected Add Hard Disk, and chose the .vdi file from the D: drive.  Cleared any old, broken disk references in VirtualBox Virtual Media Manager (Ctrl + D) to avoid duplicate UUID errors.
+7.  ![](windows-storage.png)
+
+
+# Network Configuration
+
+The machine was attached to the isolated lab network so Kali Linux can reach it:
+Opened VM Settings > Network > Adapter 1.  
+Set Attached to: NAT Network.  
+Set Name: NatNetwork.  
+Clicked Advanced and set Promiscuous Mode to Allow All so testing tools can see network traffic. 
+Verified Cable Connected was checked. 
+![](widows-network-screenshot.png)
+
+
+# IP Addressing & ConfigurationInside
+
+Windows 10, the network adapter was assigned a static IP in the lab (subnet:IP Address: 10.0.0.10  Subnet Mask: 255.255.255.0 (/24)  Default Gateway: 10.0.0.1  Preferred DNS: 8.8.8.8  Alternate DNS: 10.0.0.1 )
+
+### Steps taken inside Windows:
+
+Opened Control Panel > Network and Internet > Network Connections.
+
+Right-clicked the Ethernet adapter and selected Properties.
+
+Selected Internet Protocol Version 4 (TCP/IPv4) and clicked Properties.
+
+Selected Use the following IP address and entered the values above.
+
+Clicked OK to save.
+![](windows-internal-net-config.png)
+
+### Verification & Testing
+
+To confirm the Windows network configuration:
+
+Opened Command Prompt (cmd) inside Windows.
+
+Ran the command:
+
+ipconfig
+ping 8.8.8.8
+ping 10.0.0.1
+ping networkwalks.com
+![](windows-ping.png)
+
+ Clean State Snapshot Before running any tests or scans on Windows
+ Took a clean snapshot named my-window10-lab.  This lets us restore Windows to a clean, working state at any time with one click. 
+ ![](windows-snapshot.PNG)
+
+# Part 2: Android-x86 Mobile Target Machine (android9-lab)
+
+ 1. Overview & PurposeAndroid-x86 is deployed as the mobile endpoint target in our cybersecurity lab.
+ 2. It allows us to simulate mobile attacks, test Android Debug Bridge (ADB) exploitation, and audit mobile application security in an isolated environment.
+ 3. Android-x86 9.0-r2 (64-bit)  Base Memory (RAM): 1536 MB (or 2048 MB)Processors (vCPU): 1 vCPUGraphics Controller: Changed to VBoxVGA.  Video Memory: Set to 128 MB  Enable 3D Acceleration : checked 
+![](android-display.png)
+
+### Hypervisor Network Settings 
+ Opened VM Settings > Network > Adapter 1. 
+ Set Attached to: NAT Network.  
+ Set Name: NatNetwork.  
+ Set Promiscuous Mode: Allow All (under Advanced). 
+ Confirmed Cable Connected was enabled.  
+ ![](android-network-setting.png)
+
+ ### 5. Static Network Configuration
+
+The network interface was configured with static parameters using the Android graphical settings:
+
+* **Connected SSID:** `Virt-Wifi`
+* **IP Settings:** Static
+* **IP Address:** `10.0.0.9`
+* **Gateway:** `10.0.0.1`
+* **Network Prefix Length:** `24`
+* **DNS 1:** `8.8.8.8`
+* **DNS 2:** `10.0.0.1`
+
+#### Configuration Steps:
+1. Opened the app drawer and launched **Settings**.
+2. Navigated to **Network & Internet > Wi-Fi** and ensured Wi-Fi was toggled **ON**.
+3. Tapped on **Virt-Wifi** (or clicked the gear icon next to it and selected the pencil **Edit** icon).
+4. Expanded **Advanced options** and changed **IP settings** from *DHCP* to **Static**.
+5. Entered the static addressing parameters listed above and tapped **Save**.
+
+> ![](android-static-ip.png)
+
+Engineering Note (CLI Alternative):
+
+Prior to GUI confirmation, interface addressing was verified via the underlying Linux root shell (Alt + F1) by targeting the hypervisor's virtual network interface (wifi_eth):
+
+ip addr flush dev wifi_eth
+ip addr add 10.0.0.9/24 dev wifi_eth
+ip link set dev wifi_eth up
+ip route add default via 10.0.0.1 dev wifi_eth
+
+
+### Here are only the 3 most important technical problems and their exact solutions:
+
+1. Kali Linux: Network Timeout (DAD Fix)
+Problem: Setting the static IP (10.0.0.2) caused network drops and delays on the VirtualBox NAT Network.  
+PDF
+
+Solution: Disabled duplicate address detection (DAD) timeout in the Kali terminal:  
+PDF
+
+Bash
+sudo nmcli connection modify "Wired connection 1" ipv4.dad-timeout 0
+sudo nmcli connection down "Wired connection 1"
+sudo nmcli connection up "Wired connection 1"
+2. Android-x86: Black Screen Display Freeze
+Problem: Android-x86 hung on a black screen during boot and failed to load the desktop.  
+PDF
+
+Solution:
+
+In VirtualBox VM settings, changed Graphics Controller to VBoxVGA and disabled 3D Acceleration.  
+PDF
+
+In the GRUB boot menu, added nomodeset xforcevesa to the kernel boot line.
+
+3. Android-x86: "Device eth0 does not exist"
+Problem: Running ip addr flush dev eth0 failed with the error that eth0 was not found.
+
+Solution: Ran ip link show to detect the actual interface name (wifi_eth), then assigned the static IP directly to it:
+
+Bash
+ip addr flush dev wifi_eth
+ip addr add 10.0.0.9/24 dev wifi_eth
+ip link set dev wifi_eth up
+ip route add default via 10.0.0.1 dev wifi_eth
+
 # 👤 Author
 
 **Qazeem samshudeen**\
 Cybersecurity enthusiast
+
+
 
 LinkedIn: [https://www.linkedin.com/in/qazeem-samshudeen-94b314398/)
 
@@ -245,4 +390,10 @@ LinkedIn: [https://www.linkedin.com/in/qazeem-samshudeen-94b314398/)
 ## 📌 Project Information
 
 **Program Name:** Cybersecurity at Networkwalks | **Week:** 01 | **Project:** Cybersecurity & Pentesting Lab Setup | **Repository:** GitHub
+
+
+
+
+
+
 
