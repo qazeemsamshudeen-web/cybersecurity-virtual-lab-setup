@@ -246,7 +246,9 @@ Windows 10 is configured as the primary enterprise target endpoint in our cybers
 4.  BIOS / DefaultOptical Drive: Detached installer ISO (Win10_22H2_English_x64v1.iso) after installation was complete
 5.  Storage Optimization & External Drive MigrationTo prevent filling up the host computer's primary C: drive (which had limited free space), the virtual hard drive was moved to an external high-capacity drive:The virtual hard disk file (windows10-lab.vdi, ~12.8 GB) was moved to: D:\windows10\windows10-lab\windows10-lab.vdi
 6.  In VirtualBox Storage Settings, clicked Controller: SATA, selected Add Hard Disk, and chose the .vdi file from the D: drive.  Cleared any old, broken disk references in VirtualBox Virtual Media Manager (Ctrl + D) to avoid duplicate UUID errors.
-7.  ![](windows-storage.png)
+
+   
+8.  ![](windows-storage.png)
 
 
 # Network Configuration
@@ -257,6 +259,8 @@ Set Attached to: NAT Network.
 Set Name: NatNetwork.  
 Clicked Advanced and set Promiscuous Mode to Allow All so testing tools can see network traffic. 
 Verified Cable Connected was checked. 
+
+
 ![](widows-network-screenshot.png)
 
 
@@ -275,6 +279,8 @@ Selected Internet Protocol Version 4 (TCP/IPv4) and clicked Properties.
 Selected Use the following IP address and entered the values above.
 
 Clicked OK to save.
+
+
 ![](windows-internal-net-config.png)
 
 ### Verification & Testing
@@ -287,19 +293,28 @@ Ran the command:
 
 ipconfig
 ping 8.8.8.8
+
 ping 10.0.0.1
+
 ping networkwalks.com
+
+
 ![](windows-ping.png)
 
  Clean State Snapshot Before running any tests or scans on Windows
  Took a clean snapshot named my-window10-lab.  This lets us restore Windows to a clean, working state at any time with one click. 
+
+ 
  ![](windows-snapshot.PNG)
+ 
 
 # Part 2: Android-x86 Mobile Target Machine (android9-lab)
 
  1. Overview & PurposeAndroid-x86 is deployed as the mobile endpoint target in our cybersecurity lab.
  2. It allows us to simulate mobile attacks, test Android Debug Bridge (ADB) exploitation, and audit mobile application security in an isolated environment.
- 3. Android-x86 9.0-r2 (64-bit)  Base Memory (RAM): 1536 MB (or 2048 MB)Processors (vCPU): 1 vCPUGraphics Controller: Changed to VBoxVGA.  Video Memory: Set to 128 MB  Enable 3D Acceleration : checked 
+ 3. Android-x86 9.0-r2 (64-bit)  Base Memory (RAM): 1536 MB (or 2048 MB)Processors (vCPU): 1 vCPUGraphics Controller: Changed to VBoxVGA.  Video Memory: Set to 128 MB  Enable 3D Acceleration : checked
+
+    
 ![](android-display.png)
 
 ### Hypervisor Network Settings 
@@ -307,7 +322,9 @@ ping networkwalks.com
  Set Attached to: NAT Network.  
  Set Name: NatNetwork.  
  Set Promiscuous Mode: Allow All (under Advanced). 
- Confirmed Cable Connected was enabled.  
+ Confirmed Cable Connected was enabled. 
+
+ 
  ![](android-network-setting.png)
 
  ### 5. Static Network Configuration
