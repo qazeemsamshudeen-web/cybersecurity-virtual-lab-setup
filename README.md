@@ -134,7 +134,7 @@ The Kali Linux network configuration was checked and configured with a consisten
 
 Example configuration:
 
-IP Address: 10.0.0.3
+IP Address: 10.0.0.2
 
 Subnet Mask: 255.255.255.0
 
@@ -170,13 +170,13 @@ The snapshot represents the clean baseline of the laboratory. If a future exerci
 | 🧰 Verify Nmap                | `nmap --version`                | Nmap version displayed          |
 | 🔄 Verify snapshot            | Restore snapshot and run `ip a` | Baseline configuration restored |
 
-![](verification.png)
+![](verifi.png)
 
 ### Example Results
 
 ```text
 IP Address:
-10.0.0.3/24
+10.0.0.2/24
 
 Gateway:
 10.0.0.1
