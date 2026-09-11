@@ -340,11 +340,15 @@ The network interface was configured with static parameters using the Android gr
 * **DNS 2:** `10.0.0.1`
 
 #### Configuration Steps:
-1. Opened the app drawer and launched **Settings**.
-2. Navigated to **Network & Internet > Wi-Fi** and ensured Wi-Fi was toggled **ON**.
-3. Tapped on **Virt-Wifi** (or clicked the gear icon next to it and selected the pencil **Edit** icon).
-4. Expanded **Advanced options** and changed **IP settings** from *DHCP* to **Static**.
-5. Entered the static addressing parameters listed above and tapped **Save**.
+ Opened the app drawer and launched **Settings**.
+   
+ Navigated to **Network & Internet > Wi-Fi** and ensured Wi-Fi was toggled **ON**.
+   
+ Tapped on **Virt-Wifi** (or clicked the gear icon next to it and selected the pencil **Edit** icon).
+   
+ Expanded **Advanced options** and changed **IP settings** from *DHCP* to **Static**.
+   
+ Entered the static addressing parameters listed above and tapped **Save**.
 
 > ![](android-static-ip.png)
 
@@ -353,8 +357,11 @@ Engineering Note (CLI Alternative):
 Prior to GUI confirmation, interface addressing was verified via the underlying Linux root shell (Alt + F1) by targeting the hypervisor's virtual network interface (wifi_eth):
 
 ip addr flush dev wifi_eth
+
 ip addr add 10.0.0.9/24 dev wifi_eth
+
 ip link set dev wifi_eth up
+
 ip route add default via 10.0.0.1 dev wifi_eth
 
 
@@ -365,20 +372,23 @@ Problem: Setting the static IP (10.0.0.2) caused network drops and delays on the
 PDF
 
 Solution: Disabled duplicate address detection (DAD) timeout in the Kali terminal:  
-PDF
+
 
 Bash
 sudo nmcli connection modify "Wired connection 1" ipv4.dad-timeout 0
+
 sudo nmcli connection down "Wired connection 1"
+
 sudo nmcli connection up "Wired connection 1"
+
 2. Android-x86: Black Screen Display Freeze
+   
 Problem: Android-x86 hung on a black screen during boot and failed to load the desktop.  
-PDF
 
 Solution:
 
 In VirtualBox VM settings, changed Graphics Controller to VBoxVGA and disabled 3D Acceleration.  
-PDF
+
 
 In the GRUB boot menu, added nomodeset xforcevesa to the kernel boot line.
 
@@ -389,8 +399,11 @@ Solution: Ran ip link show to detect the actual interface name (wifi_eth), then 
 
 Bash
 ip addr flush dev wifi_eth
+
 ip addr add 10.0.0.9/24 dev wifi_eth
+
 ip link set dev wifi_eth up
+
 ip route add default via 10.0.0.1 dev wifi_eth
 
 # 👤 Author
