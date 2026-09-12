@@ -372,9 +372,11 @@ ping 8.8.8.8
 ### Test connectivity
 
 ![](android-reach-kali.PNG)
+
 android successfully pinged kali on 10.0.0.2
 
-![](kali-reachan-droid.png)
+![](kali-reach-android.png)
+
 kali successfully pinged android on 10.0.0.9
 
 
