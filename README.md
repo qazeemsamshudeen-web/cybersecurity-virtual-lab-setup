@@ -374,7 +374,7 @@ ping 8.8.8.8
 ![](android-reach-kali.PNG)
 android successfully pinged kali on 10.0.0.2
 
-![](kali-reachandroid.png)
+![](kali-reachan-droid.png)
 kali successfully pinged android on 10.0.0.9
 
 
